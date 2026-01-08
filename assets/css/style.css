@@ -427,3 +427,30 @@ body{
   .timeline__line{left: 24px; transform:none;}
   .tcard{margin-left: 54px !important; margin-right: 0 !important; width: calc(100% - 54px);}
 }
+
+/* --- Typography: biraz küçültme --- */
+
+/* Ana başlık (Doğukan & Mısra) */
+.hero__title{
+  font-size: clamp(36px, 4.4vw, 64px);
+}
+
+/* Sayfa başlıkları (Galerimiz / Değerli Anılarımız) */
+.page__title{
+  font-size: clamp(34px, 4.2vw, 58px);
+}
+
+/* Alt yazılar */
+.hero__subtitle, .page__subtitle{
+  font-size: 14.5px;
+}
+
+/* Sayaç sayıları */
+.countdown__num{
+  font-size: clamp(26px, 2.7vw, 46px);
+}
+
+/* Üstteki pill yazısı */
+.pill{
+  font-size: 11px;
+}
