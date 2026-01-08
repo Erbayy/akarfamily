@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Galeri • Doğukan & Mısra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+  <canvas id="aurora" aria-hidden="true"></canvas>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__icon">♥</span>
+        <span class="brand__text">D &amp; M</span>
+      </a>
+
+      <nav class="nav">
+        <a class="nav__link" href="index.html">Ana Sayfa</a>
+        <a class="nav__link is-active" href="galeri.html">Galeri</a>
+        <a class="nav__link" href="anilar.html">Anılar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="page">
+      <div class="container">
+        <div class="page__topline">
+          <span class="pill">📷 ŞAHESERLER</span>
+        </div>
+        <h1 class="page__title">Galerimiz</h1>
+        <p class="page__subtitle">Nice beraber senelere.</p>
+
+        <div class="gallery" id="gallery">
+          <!-- KENDİN ARTTIR: assets/images içine foto koy, aşağıya ekle -->
+          <button class="gallery__item" data-src="assets/images/1.jpg" aria-label="Fotoğraf 1">
+            <img src="assets/images/1.jpg" alt="Doğukan & Mısra 1" loading="lazy">
+          </button>
+          <button class="gallery__item" data-src="assets/images/2.jpg" aria-label="Fotoğraf 2">
+            <img src="assets/images/2.jpg" alt="Doğukan & Mısra 2" loading="lazy">
+          </button>
+          <button class="gallery__item" data-src="assets/images/3.jpg" aria-label="Fotoğraf 3">
+            <img src="assets/images/3.jpg" alt="Doğukan & Mısra 3" loading="lazy">
+          </button>
+          <button class="gallery__item" data-src="assets/images/4.jpg" aria-label="Fotoğraf 4">
+            <img src="assets/images/4.jpg" alt="Doğukan & Mısra 4" loading="lazy">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Kapat">×</button>
+      <img class="lightbox__img" id="lightboxImg" alt="Büyük görsel">
+    </div>
+  </main>
+
+  <script src="assets/js/aurora.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
