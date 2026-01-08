@@ -1,7 +1,7 @@
 (() => {
   // 1) Sayaç hedef tarih (burayı değiştir)
   // Örnek: 2025-10-29T00:00:00 (TR saatine göre)
-  const TARGET_ISO = "2025-10-29T00:00:00+03:00";
+  const TARGET_ISO = "2025-08-08T00:00:00+03:00";
   const target = new Date(TARGET_ISO);
 
   const label = document.getElementById("targetLabel");
