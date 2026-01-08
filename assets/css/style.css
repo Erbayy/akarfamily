@@ -454,3 +454,20 @@ body{
 .pill{
   font-size: 11px;
 }
+
+/* Aurora daha parlak olunca yazı okunurluğu için */
+.vignette{
+  background:
+    radial-gradient(900px 540px at 50% 18%, transparent 36%, rgba(0,0,0,.68) 92%),
+    radial-gradient(1200px 800px at 50% 100%, transparent 55%, rgba(0,0,0,.70) 95%);
+}
+
+/* Kartı bir tık daha "glass" yap */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+  border: 1px solid rgba(255,255,255,.12);
+}
+.countdown__box{
+  background: rgba(0,0,0,.24);
+  border: 1px solid rgba(255,255,255,.10);
+}
