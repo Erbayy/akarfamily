@@ -17,6 +17,12 @@ body{
   overflow-x: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* sticky menü varsa üstten pay */
+}
+
+
 .container{
   width: min(var(--container), calc(100% - 48px));
   margin: 0 auto;
