@@ -154,18 +154,31 @@ body{
   border: 1px solid rgba(255,255,255,.08);
   background: rgba(0,0,0,.18);
   padding: 18px 10px 14px;
+
+  /* FIX */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 140px; /* görünüm sabit dursun */
 }
+
 .tile__num{
   font-family: Cinzel, serif;
   font-size: clamp(36px, 4.2vw, 56px);
-  line-height: 1;
-  margin-bottom: 8px;
+  line-height: 1;     /* FIX */
+  margin: 0;          /* FIX */
 }
+
 .tile__label{
   color: rgba(255,255,255,.66);
   letter-spacing: .18em;
   font-size: 11px;
+  margin: 0;          /* FIX */
 }
+
 
 .card__bottom{
   display:flex;
