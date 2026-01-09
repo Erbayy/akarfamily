@@ -30,3 +30,22 @@ function updateCounter() {
 // İlk yüklemede ve her saniye güncelle
 updateCounter();
 setInterval(updateCounter, 1000);
+
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener("click", (e) => {
+    const id = link.getAttribute("href");
+    const target = document.querySelector(id);
+    if (!target) return;
+
+    e.preventDefault();
+
+    const headerOffset = 90; // topbar yüksekliği
+    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+  });
+});
