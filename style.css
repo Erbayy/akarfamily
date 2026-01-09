@@ -346,3 +346,13 @@ html {
   transform: scale(1.02);
   z-index: -3;
 }
+
+#stars{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;           /* bg(-3), overlay(-2) üstünde, içerik altında */
+  pointer-events: none;  /* tıklamaları engellemesin */
+  opacity: 0.55;         /* çok hafif dursun */
+}
