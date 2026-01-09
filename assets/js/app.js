@@ -1,99 +1,130 @@
-(() => {
-  // ✅ Başlangıç tarihi (birlikte geçen süre buradan hesaplanacak)
-  // TR saatine sabitlemek için +03:00 kullandım
-  const START_ISO = "2025-08-08T00:00:00+03:00";
+// --------------------
+// Ayarlar
+// --------------------
+const START_DATE = new Date("2025-08-08T00:00:00+03:00");  // başlangıç tarihi
+const TARGET_DATE = new Date("2025-08-08T00:00:00+03:00"); // geri sayım hedefi (ister değiştir)
 
-  // Üstte görünen tarih label'ı
-  const label = document.getElementById("targetLabel");
+// Metin
+document.getElementById("targetDateText").textContent = formatTRDate(TARGET_DATE);
 
-  const $d = document.getElementById("cdDays");
-  const $h = document.getElementById("cdHours");
-  const $m = document.getElementById("cdMins");
-  const $s = document.getElementById("cdSecs");
+// --------------------
+// Geri sayım
+// --------------------
+const elDays = document.getElementById("cdDays");
+const elHours = document.getElementById("cdHours");
+const elMinutes = document.getElementById("cdMinutes");
+const elSeconds = document.getElementById("cdSeconds");
 
-  function pad(n) { return String(n).padStart(2, "0"); }
+function tickCountdown() {
+  const now = new Date();
+  let diff = TARGET_DATE.getTime() - now.getTime();
 
-  // Safari dahil güvenli parse
-  function parseISO(iso) {
-    const dt = new Date(iso);
-    if (!Number.isNaN(dt.getTime())) return dt;
-
-    const cleaned = iso
-      .replace(/-/g, "/")
-      .replace("T", " ")
-      .replace(/(\+\d{2}):(\d{2})$/, " GMT$1$2");
-    return new Date(cleaned);
+  if (diff <= 0) {
+    // bitti
+    setTiles(0, 0, 0, 0);
+    return;
   }
 
-  const start = parseISO(START_ISO);
+  const totalSeconds = Math.floor(diff / 1000);
+  const days = Math.floor(totalSeconds / (3600 * 24));
+  const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  // Label: "8 Ağustos 2025"
-  if (label && !Number.isNaN(start.getTime())) {
-    const months = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-    label.textContent = `${start.getDate()} ${months[start.getMonth()]} ${start.getFullYear()}`;
-  }
+  setTiles(days, hours, minutes, seconds);
+}
 
-  function tick() {
-    if (!$d || !$h || !$m || !$s) return;
-    if (Number.isNaN(start.getTime())) return;
+function setTiles(d, h, m, s) {
+  elDays.textContent = pad2(d);
+  elHours.textContent = pad2(h);
+  elMinutes.textContent = pad2(m);
+  elSeconds.textContent = pad2(s);
+}
 
-    const now = new Date();
-    let diff = now.getTime() - start.getTime(); // ✅ geçen süre
+setInterval(tickCountdown, 1000);
+tickCountdown();
 
-    if (diff < 0) diff = 0; // başlangıç gelecekteyse 0
+// --------------------
+// Birlikte olduğumuz süre (count-up)
+// --------------------
+const togetherText = document.getElementById("togetherText");
 
-    const totalSeconds = Math.floor(diff / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const mins = Math.floor((totalSeconds % 3600) / 60);
-    const secs = totalSeconds % 60;
+function tickTogether() {
+  const now = new Date();
+  let diff = now.getTime() - START_DATE.getTime();
+  if (diff < 0) diff = 0;
 
-    $d.textContent = String(days);
-    $h.textContent = pad(hours);
-    $m.textContent = pad(mins);
-    $s.textContent = pad(secs);
+  const totalMinutes = Math.floor(diff / (1000 * 60));
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+  const minutes = totalMinutes % 60;
 
-    // Alttaki küçük yazıyı “Birlikte geçen süre” yap
-    const hint = document.querySelector(".card__hint .tiny");
-    if (hint) hint.textContent = "Birlikte geçen süre";
-  }
+  togetherText.textContent = `${days} gün ${hours} saat ${minutes} dakika`;
+}
 
-  tick();
-  setInterval(tick, 1000);
+setInterval(tickTogether, 15 * 1000);
+tickTogether();
 
-  // === Galeri Lightbox ===
-  const gallery = document.getElementById("gallery");
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightboxImg");
-  const lightboxClose = document.getElementById("lightboxClose");
+// --------------------
+// Menü aktif link (scrollspy basit)
+// --------------------
+const links = Array.from(document.querySelectorAll(".nav__link"));
+const sections = links.map(a => document.querySelector(a.getAttribute("href")));
 
-  if (gallery && lightbox && lightboxImg) {
-    gallery.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-src]");
-      if (!btn) return;
+window.addEventListener("scroll", () => {
+  const y = window.scrollY + 120;
+  let idx = 0;
 
-      const src = btn.getAttribute("data-src");
-      if (!src) return;
+  sections.forEach((sec, i) => {
+    if (sec && sec.offsetTop <= y) idx = i;
+  });
 
-      lightboxImg.src = src;
-      lightbox.classList.add("is-open");
-      lightbox.setAttribute("aria-hidden", "false");
-    });
+  links.forEach(l => l.classList.remove("is-active"));
+  links[idx]?.classList.add("is-active");
+});
 
-    const close = () => {
-      lightbox.classList.remove("is-open");
-      lightbox.setAttribute("aria-hidden", "true");
-      lightboxImg.src = "";
-    };
+// --------------------
+// Kalp butonu küçük efekt
+// --------------------
+document.getElementById("heartBtn").addEventListener("click", () => {
+  popHeart();
+});
 
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) close();
-    });
+function popHeart(){
+  const heart = document.createElement("div");
+  heart.textContent = "♥";
+  heart.style.position = "fixed";
+  heart.style.left = "50%";
+  heart.style.top = "50%";
+  heart.style.transform = "translate(-50%,-50%)";
+  heart.style.fontSize = "32px";
+  heart.style.color = "rgba(255, 210, 170, .95)";
+  heart.style.textShadow = "0 18px 40px rgba(0,0,0,.55)";
+  heart.style.pointerEvents = "none";
+  heart.style.zIndex = "9999";
+  document.body.appendChild(heart);
 
-    lightboxClose?.addEventListener("click", close);
+  heart.animate(
+    [
+      { opacity: 0, transform: "translate(-50%,-50%) scale(.8)" },
+      { opacity: 1, transform: "translate(-50%,-70%) scale(1)" },
+      { opacity: 0, transform: "translate(-50%,-110%) scale(1.1)" }
+    ],
+    { duration: 900, easing: "ease-out" }
+  ).onfinish = () => heart.remove();
+}
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") close();
-    });
-  }
-})();
+// --------------------
+// Helpers
+// --------------------
+function pad2(n){
+  return String(n).padStart(2, "0");
+}
+
+function formatTRDate(date){
+  const months = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+  const d = date.getDate();
+  const m = months[date.getMonth()];
+  const y = date.getFullYear();
+  return `${d} ${m} ${y}`;
+}
